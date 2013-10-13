@@ -1,0 +1,13 @@
+<form id='difficultyView' role='dialog' data-type='value-selector' class='view inactive3'>
+  <section class='scrollable'>
+  <h1 data-l10n-id='difficulty'></h1>
+  <ol role='listbox'>
+    <li {{#if easy}}aria-checked='true'{{/if}}><label><span data-l10n-id='easy'></span></label></li>
+    <li {{#if medium}}aria-checked='true'{{/if}}><label> <span data-l10n-id='medium'></span></label></li>
+    <li {{#if hard}}aria-checked='true'{{/if}}><label> <span data-l10n-id='hard'></span></label></li>
+  </ol>
+  </section>
+  <menu>
+  <a href='#/edit/{{id}}' role='button' class='full' data-l10n-id='ok'></a>
+  </menu>
+</form>

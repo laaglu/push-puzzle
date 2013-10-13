@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<title data-l10n-id='title'></title>
+<meta name='description' content='Push puzzle game'>
+
+<link rel='stylesheet' type='text/css' href='css/index.css'>
+
+<script type='text/javascript' src='js/vendor/l10n.js'></script>
+<link rel='prefetch' type='application/l10n' href='locales/locales.ini'/>
+<script data-main='js/main' src='js/vendor/require-2.1.6.js'></script>
+
+</head>
+
+<body role='application'>
+<section id='loadingView' role='region'>
+  <div>
+  <h3 data-l10n-id='load'></h3>
+  <progress></progress>
+  </div>
+</section>
+<section data-type='sidebar' id='menuView'>
+  <header>
+    <h1 data-l10n-id='commands'></h1>
+  </header>
+  <nav>
+    <ul>
+      <li><a href='#/shuffle' data-l10n-id='shuffle'></a></li>
+      <li><a href='#/list' data-l10n-id='levels'></a></li>
+      <li><a href='#/factoryReset' data-l10n-id='reset'></a></li>
+      <li><a href='#/about' data-l10n-id='information'></a></li>
+    </ul>
+    <ul data-type='easter'>
+      <li><a href='#/easter1'>E1</a></li>
+      <li><a href='#/easter2'>E2</a></li>
+    </ul>
+  </nav>
+</section>
+<section id='gameView' role='region' class='view' data-type='card'>
+  <!--
+  <header>
+    <a href='#/menu'><span class='icon icon-menu'>Show sidebar</span></a>
+    <a href='#/play/{{id}}'><span class='icon icon-menu'>Hide sidebar</span></a>
+    <h1 data-l10n-id='title'></h1>
+  </header>
+  <div role='main'><svg></svg></div>
+  <div role='toolbar'>
+    <ul>
+      <li>
+        <a href='#/previous' role='button'><span class='action-icon browser-back'>Previous</span></a>
+      </li>
+    </ul>
+    <ul>
+      <li>
+        <a href='#/next' role='button'><span class='action-icon browser-forward'>Next</span></a>
+      </li>
+    </ul>
+  </div>
+  -->
+</section>
+
+<section id='listView' role='region' class='view inactive hidden' data-type='card'>
+  <!--
+  <header>
+    <a href='#/menu'><span class='icon icon-back'>Show sidebar</span></a>
+    <menu type='toolbar'>
+      <a href='#/create'><span class='icon icon-add'>add</span></a>
+    </menu>
+    <h1 data-l10n-id='levels'></h1>
+  </header>
+  <article class="scrollable">
+    <section data-type="list">
+      <ul>
+        <li>
+          <a href='#/play/{{id}}'>
+            <aside class='pack-begin'>
+              <img alt='{{name}}' src='{{miniature}}'>
+            </aside>
+            <a href='#/edit/{{id}}' class='btn edit'><span>Edit</span></a>
+            <div>
+              <p>{{name}}</p>
+              <p>{{creationDate}}</p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </article>
+  -->
+</section>
+
+<form id='editView' role='dialog' data-type='edit' class='view inactive hidden'>
+  <!--
+  <header>
+    <a role='button' href='#/editRollback'><span class='icon icon-close'>close</span></a>
+    <menu type='toolbar'>
+      <a role='button' href='#/editCommit'><span data-l10n-id='done'></span></a>
+    </menu>
+    <h1 data-l10n-id='editLevel'></h1>
+  </header>
+  <ul class='compact'>
+    <li>
+      <label data-l10n-id='name'></label>
+      <input type='text' data-l10n-id='name' placeholder='' maxLength='50' value='{{name}}'/>
+    </li>
+    <li>
+      <label data-l10n-id='difficulty'></label>
+      <p class='fake-select'>
+        <a role='button' class='icon icon-dialog' href='#/difficulty'>{{difficultyTxt}}</a>
+        <select name='difficulty' data-value-type='integer'>
+          <option value='0' data-l10n-id='easy' {{#if difficulty == 0}}selected{{/if}}></option>
+          <option value='1' data-l10n-id='medium' {{#if difficulty == 1}}selected{{/if}}></option>
+          <option value='2' data-l10n-id='hard' {{#if difficulty == 2}}selected{{/if}}></option>
+        </select>
+      </p>
+    </li>
+    <li>
+      <label data-l10n-id='creationDate'></label>
+      <input readonly type='text' maxLength='50' value='{{creationDate}}'/>
+    </li>
+    <li>
+      <label data-l10n-id='lastPlayed'></label>
+      <input readonly type='text' maxLength='50' value='{{lastPlayed}}' data-l10n-id='lastPlayed'/>
+    </li>
+    <li>
+      <label data-l10n-id='image'></label>
+      <svg></svg>
+    </li>
+  </ul>
+  <menu>
+    <a class='danger full' data-l10n-id='erase' role='button' href='#/erase/{{id}}'></a>
+  </menu>
+  -->
+</form>
+
+
+<form id='difficultyView' role='dialog' data-type='value-selector' class='view inactive hidden'>
+  <!--
+  <section class='scrollable'>
+  <h1 data-l10n-id='difficulty'></h1>
+  <ol role='listbox'>
+    <li {{#if difficulty == 0}}aria-checked='true'{{/if}}><label><span data-l10n-id='easy'></span></label></li>
+    <li {{#if difficulty == 1}}aria-checked='true'{{/if}}><label> <span data-l10n-id='medium'></span></label></li>
+    <li {{#if difficulty == 2}}aria-checked='true'{{/if}}><label> <span data-l10n-id='hard'></span></label></li>
+  </ol>
+  </section>
+  <menu>
+  <a href='#/difficulty' role='button' class='full' data-l10n-id='ok'></a>
+  </menu>
+  -->
+</form>
+
+<section id='aboutView' role='region' class='view info inactive hidden' data-type='card'>
+ <!--
+  <header>
+    <a href='#/menu'><span class='icon icon-back'>Back</span></a>
+    <h1 data-l10n-id='information'></h1>
+  </header>
+  <article class="scrollable">
+    <div role='main'>
+      <ul>
+        <li>
+          <small>Lukas Laag</small>
+          <span data-l10n-id='coding'></span>
+        </li>
+        <li>
+          <small data-l10n-id='graphics-value'></small>
+          <span data-l10n-id='graphics'></span>
+        </li>
+        <li>
+          <small>{{version}}</small>
+          <span data-l10n-id='version'></span>
+        </li>
+        <li>
+          <label>
+            <a href='#/releaseNotes' role='button' data-l10n-id='releaseNotes'></a>
+          </label>
+        </li>
+        <li>
+          <label>
+            <a href='#/legal' role='button' data-l10n-id='legal-info'></a>
+          </label>
+        </li>
+      </ul>
+      <section data-type='installation' {{#unless install}}class='hidden'{{/unless}}>
+        <header>
+          <h2 data-l10n-id='install'></h2>
+        </header>
+        <ul>
+          <li data-type='description' data-l10n-id='installTxt'></li>
+          <li>
+            <label>
+              <a href='#/install' role='button' data-l10n-id='installBtn'></a>
+            </label>
+          </li>
+          <li data-type='error'>{{error}}</li>
+        </ul>
+      </section>
+      <section data-type='upgrade' {{#unless update}}class='hidden'{{/unless}}>
+        <header>
+          <h2 data-l10n-id='update'></h2>
+        </header>
+        <ul>
+          <li>
+            <label>
+              <a href='#/update' role='button' data-l10n-id='updateBtn'></a>
+            </label>
+          </li>
+          <li data-type='error'>{{error}}</li>
+        </ul>
+      </section>
+    </div>
+  </article>
+  <div id="arrow_box" class="hidden ios">
+    <h3 data-l10n-id='iosmsg1'></h3>
+    <p data-l10n-id='iosmsg2'></p>
+  </div>
+ -->
+</section>
+
+<section id='releaseNotesView' role='region' class='view info inactive hidden' data-type='card'>
+  <header>
+    <a href='#/about'><span class='icon icon-back'>Back</span></a>
+    <h1 data-l10n-id='releaseNotes'></h1>
+  </header>
+  <div role='main'><article class="scrollable"></article></div>
+</section>
+
+<section id='legalView' role='region' class='view info inactive hidden' data-type='card'>
+  <header>
+    <a href='#/about'><span class='icon icon-back'>Back</span></a>
+    <h1 data-l10n-id='legal-info'></h1>
+  </header>
+  <div role='main'>
+    <ul>
+      <li>
+        <label>
+          <a href='#/gpl' role='button' data-l10n-id='gpl'></a>
+        </label>
+      </li>
+      <li>
+        <label>
+          <a href='#/source' role='button' data-l10n-id='source'></a>
+        </label>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id='gplView' role='region' class='view info inactive hidden' data-type='card'>
+  <header>
+    <a href='#/legal'><span class='icon icon-back'>Back</span></a>
+    <h1 data-l10n-id='gpl'></h1>
+  </header>
+  <div role='main'><article class="scrollable"></article></div>
+</section>
+
+<section id='sourceView' role='region' class='view info inactive hidden' data-type='card'>
+  <header>
+    <a href='#/legal'><span class='icon icon-back'>Back</span></a>
+    <h1 data-l10n-id='source'></h1>
+  </header>
+  <div role='main'><article class="scrollable"></article></div>
+</section>
+
+</body>
+</html>

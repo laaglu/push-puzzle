@@ -1,0 +1,43 @@
+<form id='editView' role='dialog' data-type='edit' class='view inactive'>
+  <header>
+    <a role='button' href='#/list'><span class='icon icon-close'>close</span></a>
+    <menu type='toolbar'>
+      <a role='button' href='#/commit'><span data-l10n-id='done'></span></a>
+    </menu>
+    <h1 data-l10n-id='editLevel'></h1>
+  </header>
+  <article class="scrollable">
+    <ul class='compact'>
+      <li>
+        <label data-l10n-id='name'></label>
+        <input type='text' data-l10n-id='name' placeholder='' maxLength='50' value='{{name}}'/>
+      </li>
+      <li>
+        <label data-l10n-id='difficulty'></label>
+        <p class='fake-select'>
+          <a role='button' class='icon icon-dialog' href='#/difficulty'>{{difficultyValue}}</a>
+          <select name='difficulty' data-value-type='integer'>
+            <option value='0' data-l10n-id='easy' {{#if easy}}selected{{/if}}></option>
+            <option value='1' data-l10n-id='medium' {{#if medium}}selected{{/if}}></option>
+            <option value='2' data-l10n-id='hard' {{#if hard}}selected{{/if}}></option>
+          </select>
+        </p>
+      </li>
+      <li>
+        <label data-l10n-id='creationDate'></label>
+        <input readonly type='text' maxLength='50' value='{{creationDate}}'/>
+      </li>
+      <li>
+        <label data-l10n-id='lastPlayed'></label>
+        <input readonly type='text' maxLength='50' value='{{lastPlayed}}' data-l10n-id='lastPlayed'/>
+      </li>
+      <li>
+        <label data-l10n-id='image'></label>
+        <svg></svg>
+      </li>
+    </ul>
+  </article>
+  <menu>
+    <a class='danger full' data-l10n-id='erase' role='button' href='#/erase/{{id}}'></a>
+  </menu>
+</form>
