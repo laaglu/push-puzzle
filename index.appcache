@@ -30,6 +30,8 @@ data/source.html
 data/releaseNotes.html
 img/icons/icon-30.png
 img/icons/icon-60.png
+img/icons/icon-90.png
+img/icons/icon-120.png
 img/icons/icon-128.png
 img/edit.svg
 js/vendor/l10n.js
