@@ -8,6 +8,7 @@ rm -rf ../push-puzzle.optimized/js/view
 rm -rf ../push-puzzle.optimized/js/vendor/require-2.1.6.js
 rm -rf ../push-puzzle.optimized/js/vendor/libsvg-ide.js
 rm -rf ../push-puzzle.optimized/.idea
+rm -rf ../push-puzzle.optimized/.git
 mv ../push-puzzle.optimized/index.html.opt ../push-puzzle.optimized/index.html
 rm -rf ../push-puzzle.zip
 sleep 1
