@@ -3,8 +3,9 @@ define(['backbone', 'model/db', 'model/Level', 'model/ImageData', 'common/Minifi
 
     "use strict";
 
+    var LEVEL_SEQ = 'levelSeq';
+    var CURRENT_LEVEL = 'currentLevel';
     var Levels = Backbone.Collection.extend({
-      CURRENT_LEVEL : 'currentLevel',
       database: database,
       storeName: 'level',
       model : Level,
@@ -32,11 +33,19 @@ define(['backbone', 'model/db', 'model/Level', 'model/ImageData', 'common/Minifi
           error: onerror
         });
       },
+      currentId: function currentId() {
+        return localStorage.getItem(LEVEL_SEQ) || 1;
+      },
+      nextId: function nextId() {
+        var id = this.currentId();
+        localStorage.setItem(LEVEL_SEQ, ++id);
+        return id;
+      },
       getCurrentLevel: function() {
-        return localStorage.getItem(this.CURRENT_LEVEL);
+        return localStorage.getItem(CURRENT_LEVEL) || 0;
       },
       setCurrentLevel: function(value) {
-        localStorage.setItem(this.CURRENT_LEVEL, value);
+        localStorage.setItem(CURRENT_LEVEL, value);
       },
       resetAll: function (options) {
         var i, len, collection = this, model;
@@ -120,7 +129,7 @@ define(['backbone', 'model/db', 'model/Level', 'model/ImageData', 'common/Minifi
 
 
         // Slow reset, compatible with both impls, delete levels one at a time
-        this.setCurrentLevel(0);
+        localStorage.clear();
         if (this.length > 0) {
           // Wipe out previous levels
           for (i = this.length - 1; i >= 0; i--) {
@@ -280,7 +289,8 @@ define(['backbone', 'model/db', 'model/Level', 'model/ImageData', 'common/Minifi
           });
           pick.onsuccess = function() {
             // this is bound to the MozActivity
-            processData({name: this.result.name, type:this.result.type, blob:this.result.blob});
+            var name = this.result.name ? this.result.name : (document.webL10n.get('level') + '-' + collection.nextId());
+            processData({name: name, type:this.result.type, blob:this.result.blob});
           };
 
         } else {
