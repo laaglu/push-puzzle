@@ -1,6 +1,6 @@
 requirejs.config({
   paths: {
-    jquery: 'vendor/zepto-1.0',
+    jquery: 'vendor/jquery-1.10.2.min',
     underscore: 'vendor/underscore',
     backbone: 'vendor/backbone',
     moment: 'vendor/moment-langs-2.2.1.min',
