@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.3",
   "name": "PushPuzzle",
   "description": "Push puzzle game",
   "launch_path": "/index.html",

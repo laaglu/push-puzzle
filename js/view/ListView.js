@@ -6,6 +6,9 @@ define(['view/ViewBase', 'model/Levels', 'view/templates/ListTemplate', 'view/Le
     return ViewBase.extend({
       el: '#listView',
       template: ListTemplate,
+      events: {
+        'click #createBtn': 'createLevel'
+      },
       initialize: function () {
         this.collection = levels;
         this.listenTo(this.collection, 'add', function(level) {
@@ -70,6 +73,12 @@ define(['view/ViewBase', 'model/Levels', 'view/templates/ListTemplate', 'view/Le
           this.addLevel(this.collection.at(i), true);
         }
         return this;
+      },
+
+      createLevel: function () {
+        logger.log('ListView.createLevel');
+        levels.createLevel();
+        location.hash = '#/list';
       }
     });
   }

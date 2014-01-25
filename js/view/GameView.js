@@ -115,20 +115,38 @@ define(['view/ViewBase', 'vendor/libsvg', 'common/Polyfills', 'view/templates/Ga
       },
 
       generate : function () {
-        var i, j, len, index;
-        var rootSvg = document.createSVGSVGElement();
-        var view = this;
+        var i, j, len, index,
+          rootSvg,
+          view,
+          defs,
+          imgGroup,
+          childNodes,
+          viewBox,
+          width, height,
+          borderWidth, borderHeight,
+          borderRx, borderRy,
+          borderOut, borderIn,
+          clipPath, clipRect,
+          tileDef, tileClipPath, tileTransform,
+          xform, imgUse, tileBorder,
+          state;
+
+        rootSvg = document.createSVGSVGElement();
+        view = this;
+
         // Touch specific handlers
-        $(rootSvg).on("touchstart", function(event) {
-          var touch = event.originalEvent.changedTouches[0];
+        $(rootSvg).on('touchstart', function(event) {
+          console.log(event);
+          var touch = event.changedTouches[0];
           view.touchid = touch.identifier;
           view.onEvent(touch);
           event.preventDefault();
           event.stopPropagation();
         });
-        $(rootSvg).on("touchend touchcancel touchleave", function(event) {
+        $(rootSvg).on('touchend touchcancel touchleave', function(event) {
+          console.log(event);
           var i, len, changedTouches;
-          changedTouches = event.originalEvent.changedTouches;
+          changedTouches = event.changedTouches;
           for (i = 0, len = changedTouches.length; i < len; i++) {
             if (changedTouches[i].identifier === view.touchid) {
               view.touchid = null;
@@ -139,27 +157,28 @@ define(['view/ViewBase', 'vendor/libsvg', 'common/Polyfills', 'view/templates/Ga
           event.stopPropagation();
         });
         // Mouse specific handlers
-        rootSvg.onmousedown = function (event) {
+        $(rootSvg).on('mousedown', function (event) {
+          console.log(event);
           view.onEvent(event);
           event.stopPropagation();
           event.preventDefault();
-        };
-        var defs = document.createSVGDefsElement();
+        });
+        defs = document.createSVGDefsElement();
         rootSvg.appendChild(defs);
 
         // Copy the source SVG in a dedicated group inside
         // the defs
-        var imgGroup = document.createSVGGElement();
+        imgGroup = document.createSVGGElement();
         imgGroup.id = this.ID_IMAGE;
-        var childNodes = this.srcSvg.childNodes;
+        childNodes = this.srcSvg.childNodes;
         for (i = 0, len = childNodes.length; i < len; i++) {
           imgGroup.appendChild(childNodes[i].cloneNode(true));
         }
         defs.appendChild(imgGroup);
 
-        var viewBox = this.srcSvg.viewBox.baseVal;
-        var width = viewBox.width;
-        var height = viewBox.height;
+        viewBox = this.srcSvg.viewBox.baseVal;
+        width = viewBox.width;
+        height = viewBox.height;
         this.bbox = rootSvg.createSVGRect();
         // viewBox.assignTo(this.bbox);  FF22 reg - fixed in FF24
         this.bbox.x = viewBox.x;
@@ -181,11 +200,11 @@ define(['view/ViewBase', 'vendor/libsvg', 'common/Polyfills', 'view/templates/Ga
         // drawing (15% of the original drawing size, corner radius
         // 2.5% of the original drawing size)
         // Add a 3 pixel margin around the tiles
-        var borderWidth = ~~(0.075 * width);
-        var borderHeight = ~~(0.075 * height);
-        var borderRx = ~~(0.025 * width);
-        var borderRy = ~~(0.025 * height);
-        var borderOut = document.createSVGRectElement1(
+        borderWidth = ~~(0.075 * width);
+        borderHeight = ~~(0.075 * height);
+        borderRx = ~~(0.025 * width);
+        borderRy = ~~(0.025 * height);
+        borderOut = document.createSVGRectElement1(
           viewBox.x - borderWidth - this.MARGIN,
           viewBox.y - borderHeight - this.MARGIN,
           viewBox.width + 2 * (borderWidth + this.MARGIN),
@@ -193,7 +212,7 @@ define(['view/ViewBase', 'vendor/libsvg', 'common/Polyfills', 'view/templates/Ga
           borderRx,
           borderRy);
         borderOut.className.baseVal = this.STYLE.borderOut;
-        var borderIn = document.createSVGRectElement1(
+        borderIn = document.createSVGRectElement1(
           viewBox.x - this.MARGIN,
           viewBox.y - this.MARGIN,
           viewBox.width + 2 * this.MARGIN,
@@ -215,9 +234,9 @@ define(['view/ViewBase', 'vendor/libsvg', 'common/Polyfills', 'view/templates/Ga
         // <clipPath id='cp'>
         //  <rect id='cpr' x='0' y='0' width='130' height='130' rx='10' ry='10'/>
         // </clipPath>
-        var clipPath = document.createSVGClipPathElement();
+        clipPath = document.createSVGClipPathElement();
         clipPath.id = this.ID_CLIP_PATH;
-        var clipRect = document.createSVGRectElement1(
+        clipRect = document.createSVGRectElement1(
           viewBox.x,
           viewBox.y,
           width / this.xcount,
@@ -244,21 +263,21 @@ define(['view/ViewBase', 'vendor/libsvg', 'common/Polyfills', 'view/templates/Ga
               //  </g>
               //  <use x='0' y='0' xlink:href='#cp1r' style='fill:none;stroke:black;'/>
               // </g>
-              var tileDef = document.createSVGGElement();
+              tileDef = document.createSVGGElement();
               tileDef.id = this.ID_TILE + index;
-              var tileClipPath = document.createSVGGElement();
+              tileClipPath = document.createSVGGElement();
               tileClipPath.style.setProperty(SVGConstants.CSS_CLIP_PATH_PROPERTY, 'url(#' + this.ID_CLIP_PATH + ')', '');
-              var tileTransform = document.createSVGGElement();
-              var xform = rootSvg.createSVGTransform();
+              tileTransform = document.createSVGGElement();
+              xform = rootSvg.createSVGTransform();
               xform.setTranslate(
                 viewBox.x - i * width / this.xcount,
                 viewBox.y - j * height / this.ycount);
               tileTransform.transform.baseVal.appendItem(xform);
-              var imgUse = document.createSVGUseElement();
+              imgUse = document.createSVGUseElement();
               imgUse.x.baseVal.value = viewBox.x;
               imgUse.y.baseVal.value = viewBox.y;
               imgUse.href.baseVal = '#' + this.ID_IMAGE;
-              var tileBorder = document.createSVGUseElement();
+              tileBorder = document.createSVGUseElement();
               tileBorder.x.baseVal.value = viewBox.x;
               tileBorder.y.baseVal.value = viewBox.y;
               tileBorder.href.baseVal = '#' + this.ID_CLIP_RECT;
@@ -284,7 +303,7 @@ define(['view/ViewBase', 'vendor/libsvg', 'common/Polyfills', 'view/templates/Ga
 
         // Restore the previous game state if it exists, unless
         // the player has changed the difficulty
-        var state = this.model.get('state');
+        state = this.model.get('state');
         if (state && (state.length * state[0].length === this.tiles.length)) {
           this.playing = true;
           for (i = 0; i < this.xcount; i++) {
@@ -471,8 +490,7 @@ define(['view/ViewBase', 'vendor/libsvg', 'common/Polyfills', 'view/templates/Ga
       window.requestAnimationFrame(makeFrame);
     },
     createState: function() {
-      var i, j, index;
-      var state = this.model.get('state');
+      var i, j, index, state = this.model.get('state');
       state = new Array(this.xcount);
       this.model.set({'state': state});
       for (i = 0; i < this.xcount; i++) {
