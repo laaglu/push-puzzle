@@ -1,7 +1,7 @@
 {
   "version": "1.0.3",
-  "name": "PushPuzzle",
-  "description": "Push puzzle game",
+  "name": "Push Puzzle",
+  "description": "Sliding puzzle game. The goal is to reconstitute an image",
   "launch_path": "/index.html",
   "appcache_path": "/index.appcache",
   "icons": {
@@ -20,11 +20,8 @@
   "installs_allowed_from": ["*"],
   "locales": {
     "fr": {
-      "description": "Puzzle poussoir",
-      "developer": {
-            "name": "Lukas Laag",
-            "url": "http://www.vectomatic.org"
-      }
+      "name": "Taquin",
+      "description": "Jeu de puzzle. Le but est de reconstituer une image",
     }
   },
   "default_locale": "en",
