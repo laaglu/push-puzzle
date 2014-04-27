@@ -1,0 +1,50 @@
+{
+  "name": "push-puzzle",
+  "version": "1.0.4",
+  "description": "Push puzzle game",
+  "main": "app.build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/laaglu/push-puzzle.git"
+  },
+  "keywords": [
+    "game",
+    "html5",
+    "puzzle",
+    "firefox",
+    "firefoxos",
+    "open",
+    "web",
+    "apps",
+    "svg",
+    "marketplace",
+    "customizeable",
+    "picture",
+    "photo"
+  ],
+  "author": "Lukas Laag",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/laaglu/push-puzzle/issues"
+  },
+  "homepage": "http://fos-games.org",
+  "dependencies": {
+    "brunch": "~1.7.13",
+    "css-brunch": "~1.7.0",
+    "cssembed-brunch": "~1.0.0",
+    "clean-css-brunch": "~1.7.1",
+    "javascript-brunch": "~1.7.1",
+    "jshint-brunch": "1.7.0",
+    "handlebars-brunch": "~1.7.7",
+    "appcache-brunch" : "~1.7.1",
+    "uglify-js-brunch" : "~1.7.7",
+    "imageoptmizer-brunch": "~0.0.4",
+    "bower": "~1.3.2"
+  },
+  "scripts": {
+    "postinstall": "brunch build --production"
+  }
+}
