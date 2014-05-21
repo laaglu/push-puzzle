@@ -1,4 +1,23 @@
+/**********************************************
+ * Copyright (C) 2014 Lukas Laag
+ * This file is part of push-puzzle.
+ * 
+ * push-puzzle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * push-puzzle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with push-puzzle.  If not, see http://www.gnu.org/licenses/
+ **********************************************/
 'use strict';
+
+/* global Backbone, window, navigator, chrome, XMLHttpRequest, location, document */
 
 var logger = require('Logger');
 
@@ -18,7 +37,7 @@ var Installation = Backbone.Model.extend({
   initialize: function() {
     var handleCacheEvent = function handleCacheEvent(e) {
       logger.log('handleCacheEvent', e);
-    }
+    };
 
     var handleCacheError = function handleCacheError(e) {
       logger.log('handleCacheError', e);
@@ -53,7 +72,7 @@ var Installation = Backbone.Model.extend({
     }
   },
   checkInstall: function(options) {
-    logger.log('Installation.checkInstall')
+    logger.log('Installation.checkInstall');
     var installation = this;
     if (navigator.mozApps) {
       //Mozilla web apps
@@ -74,13 +93,13 @@ var Installation = Backbone.Model.extend({
             }
           }
         };
-        req1.onerror = function() {
-          if (options && options.error && (typeof options.error == 'function')) {
+        req1.onerror = function(err) {
+          if (options && options.error && (typeof options.error === 'function')) {
             options.error(err);
           }
           try2();
-        }
-      }
+        };
+      };
 
       // TRY2: get our application management object using getInstalled()
       // this works correctly when running as "self service installer"
@@ -92,7 +111,7 @@ var Installation = Backbone.Model.extend({
           var myorigin = window.location.protocol + "//" + window.location.host;
           if (req2.result !== null) {
             req2.result.forEach(function (app) {
-              if (app.origin == myorigin)
+              if (app.origin === myorigin)
                 result = app;
             });
           }
@@ -105,13 +124,13 @@ var Installation = Backbone.Model.extend({
           } else {
             installation.set('state', 'uninstalled');
           }
-        }
+        };
         req2.onerror = function (err) {
-          if (options && options.error && (typeof options.error == 'function')) {
+          if (options && options.error && (typeof options.error === 'function')) {
             options.error(err);
           }
         };
-      }
+      };
 
       // ---> Actual code starts here<---
       try1();
@@ -134,7 +153,7 @@ var Installation = Backbone.Model.extend({
   },
 
   checkVersion: function(options) {
-    logger.log('Installation.checkVersion')
+    logger.log('Installation.checkVersion');
     var installation = this;
     var req = new XMLHttpRequest();
     req.open("GET", "manifest.webapp", true);
@@ -144,7 +163,7 @@ var Installation = Backbone.Model.extend({
         installation.set('resourceVersion', manifest.version);
       }
     };
-    if (options && options.error && (typeof options.error == 'function')) {
+    if (options && options.error && (typeof options.error === 'function')) {
       req.onerror = options.error;
     }
     req.send();
@@ -156,7 +175,7 @@ var Installation = Backbone.Model.extend({
   },
 
   install: function() {
-    logger.log('Installation.install')
+    logger.log('Installation.install');
     var type = this.get('type');
     if (type) {
       this[type + 'Install']();
@@ -171,7 +190,7 @@ var Installation = Backbone.Model.extend({
 
     var installation = this;
     this.set('error', null);
-    installRequest.onsuccess = function (data) {
+    installRequest.onsuccess = function () {
       installation.set('state', 'installed');
     };
 

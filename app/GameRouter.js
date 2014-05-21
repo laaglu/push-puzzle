@@ -1,7 +1,24 @@
+/**********************************************
+ * Copyright (C) 2014 Lukas Laag
+ * This file is part of push-puzzle.
+ * 
+ * push-puzzle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * push-puzzle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with push-puzzle.  If not, see http://www.gnu.org/licenses/
+ **********************************************/
 'use strict';
 
+/* global Backbone, $, location, document */
 var install = require('model/Installation');
-var Level = require('model/Level');
 var levels = require('model/Levels');
 var GameView = require('view/GameView');
 var ListView = require('view/ListView');
@@ -113,8 +130,8 @@ module.exports = Backbone.Router.extend({
     var editView = this.editView;
     var level = levels.get(levelid);
     if (level) {
-      this.editView.bind(level);
-      this.editView.activate();
+      editView.bind(level);
+      editView.activate();
       if (this.difficultyView.isActive()) {
         this.difficultyView.deactivate();
       }
@@ -267,7 +284,7 @@ module.exports = Backbone.Router.extend({
     logger.log('easter2');
     if (this.easter) {
       this.easterCount++;
-      if (this.easterCount == 3) {
+      if (this.easterCount === 3) {
         delete this.easterCount;
         delete this.easter;
         this.gameView.createState();

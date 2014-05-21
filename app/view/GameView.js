@@ -1,4 +1,23 @@
+/**********************************************
+ * Copyright (C) 2014 Lukas Laag
+ * This file is part of push-puzzle.
+ * 
+ * push-puzzle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * push-puzzle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with push-puzzle.  If not, see http://www.gnu.org/licenses/
+ **********************************************/
 'use strict';
+
+/* global document, window, $, SVGLength */
 
 var SVGConstants = require('common/libsvg');
 require('common/Polyfills');
@@ -97,11 +116,11 @@ module.exports = ViewBase.extend({
 
     // Cancel pending animations
     var view = this;
-    if (this.waitTimer != -1) {
+    if (this.waitTimer !== -1) {
       window.clearTimeout(this.waitTimer);
       this.waitTimer = -1;
     }
-    if (this.scrambleTimer != -1) {
+    if (this.scrambleTimer !== -1) {
       window.clearInterval(this.scrambleTimer);
       this.scrambleTimer = -1;
     }
@@ -254,7 +273,7 @@ module.exports = ViewBase.extend({
     for (i = 0; i < this.xcount; i++) {
       for (j = 0; j < this.ycount; j++) {
         index = i * this.ycount + j;
-        if (index != this.hole) {
+        if (index !== this.hole) {
           // Create the tile definition
           // Each tile definition has the following structure
           // <g id='tileXXX'>
@@ -368,7 +387,7 @@ module.exports = ViewBase.extend({
   setTile: function (x, y, value) {
     var state = this.model.get('state');
     state[x][y] = value;
-    if (value != this.hole) {
+    if (value !== this.hole) {
       this.tiles[value].x.baseVal.value = x * this.bbox.width / this.xcount;
       this.tiles[value].y.baseVal.value = y * this.bbox.height / this.ycount;
     }
@@ -397,7 +416,7 @@ module.exports = ViewBase.extend({
         var shifted = false;
         var i, j;
         for (i = 0; i < this.xcount; i++) {
-          if (state[i][y] == this.hole) {
+          if (state[i][y] === this.hole) {
             if (x < i) {
               for (j = i; j > x; j--) {
                 this.setTile(j, y, this.getTile(j - 1, y));
@@ -413,7 +432,7 @@ module.exports = ViewBase.extend({
         }
         if (!shifted) {
           for (i = 0; i < this.ycount; i++) {
-            if (state[x][i] == this.hole) {
+            if (state[x][i] === this.hole) {
               if (y < i) {
                 for (j = i; j > y; j--) {
                   this.setTile(x, j, this.getTile(x, j - 1));
@@ -455,7 +474,7 @@ module.exports = ViewBase.extend({
     var animCount = 0;
     var t0 = -1;
     var makeFrame = function (timestamp) {
-      if (t0 == -1) {
+      if (t0 === -1) {
         t0 = timestamp;
       } else {
         // Each animation cycle lasts 1.5s: 0.5s where nothing moves, followed by a 1s rotation
@@ -465,11 +484,11 @@ module.exports = ViewBase.extend({
           for (var i = 0; i < view.xcount; i++) {
             for (var j = 0; j < view.ycount; j++) {
               var index = i * view.ycount + j;
-              if (index != view.hole) {
+              if (index !== view.hole) {
                 var xformList = view.tiles[index].transform.baseVal;
                 xformList.clear();
                 var r = view.pushSvg.createSVGTransform();
-                var angle = 360 * progress * ((animCount % 2 == 0) ? 1 : -1);
+                var angle = 360 * progress * ((animCount % 2 === 0) ? 1 : -1);
                 var cx = (i + 0.5) * view.bbox.width / view.xcount;
                 var cy = (j + 0.5) * view.bbox.height / view.ycount;
                 r.setRotate(angle, cx, cy);
@@ -478,7 +497,7 @@ module.exports = ViewBase.extend({
             }
           }
         }
-        if (dt == 1500) {
+        if (dt === 1500) {
           animCount++;
           t0 = -1;
         }

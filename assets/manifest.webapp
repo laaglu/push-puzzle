@@ -21,7 +21,7 @@
   "locales": {
     "fr": {
       "name": "Taquin",
-      "description": "Jeu de puzzle. Le but est de reconstituer une image",
+      "description": "Jeu de puzzle. Le but est de reconstituer une image"
     }
   },
   "default_locale": "en",

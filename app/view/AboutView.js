@@ -1,4 +1,23 @@
+/**********************************************
+ * Copyright (C) 2014 Lukas Laag
+ * This file is part of push-puzzle.
+ * 
+ * push-puzzle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * push-puzzle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with push-puzzle.  If not, see http://www.gnu.org/licenses/
+ **********************************************/
 'use strict';
+
+/* global document, $ */
 
 var ViewBase = require('./ViewBase');
 var AboutTemplate = require('./templates/AboutTemplate');
@@ -23,10 +42,10 @@ module.exports = ViewBase.extend({
     logger.log('AboutView.render()');
     var resourceVersion = this.model.get('resourceVersion');
     var manifestVersion = this.model.get('manifestVersion');
-    var install = this.model.get('state') == 'uninstalled';
-    var update = this.model.get('state') == 'installed'
-     && manifestVersion != null
-     && manifestVersion != resourceVersion;
+    var install = this.model.get('state') === 'uninstalled';
+    var update = this.model.get('state') === 'installed'&& 
+      manifestVersion !== null &&
+      manifestVersion !== resourceVersion;
     var data = {
       version: manifestVersion ?  manifestVersion : resourceVersion,
       updateVersion: resourceVersion,
@@ -34,7 +53,7 @@ module.exports = ViewBase.extend({
       update: update,
       error: this.model.get('error'),
       debugLogs: logger.getShowLogs()
-    }
+    };
     var tpl = $(this.template(data));
     document.webL10n.translate(tpl[0]);
     this.replaceContent(tpl);
@@ -44,7 +63,7 @@ module.exports = ViewBase.extend({
 
   showNotification: function() {
     logger.log('AboutView.showNotification()');
-    if (this.model.get('type') == 'ios') {
+    if (this.model.get('type') === 'ios') {
       var msg = this.$('#arrow_box');
       msg.show();
 
