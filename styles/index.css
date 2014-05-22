@@ -220,10 +220,10 @@ section[data-type='card'] > header:first-child h1 {
 
 /* About view, Legal View, GPL View, Source View*/
 
-#aboutView {
+#aboutView, #settingsView {
   z-index:110;
 }
-#releaseNotesView, #legalView {
+#releaseNotesView, #legalView, #translationsView {
   z-index:120;
 }
 #gplView, #sourceView {
@@ -376,6 +376,16 @@ section[data-type='card'] > header:first-child h1 {
   left: 48px;
   bottom: 100px;
   -webkit-transform: translateZ(0); // activate the GPU
+}
+
+.link {
+  pointer-events:all;
+  text-decoration:underline;
+  cursor: pointer;
+ 
+}
+.link:hover {
+  color:blue;
 }
 
 

@@ -38,7 +38,8 @@ exports.config = {
   plugins: {
     appcache: {
       manifestFile: 'index.appcache',
-      network:[]
+      network:[],
+      ignore:/manifest\.properties|translation\.properties$/
     }
   },
   server: {

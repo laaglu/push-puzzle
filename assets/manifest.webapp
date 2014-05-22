@@ -1,5 +1,5 @@
 {
-  "version": "1.0.3",
+  "version": "1.0.4",
   "name": "Push Puzzle",
   "description": "Sliding puzzle game. The goal is to reconstitute an image",
   "launch_path": "/index.html",

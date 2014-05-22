@@ -33,6 +33,7 @@
       <li><a href='#/shuffle' data-l10n-id='shuffle'></a></li>
       <li><a href='#/list' data-l10n-id='levels'></a></li>
       <li><a href='#/factoryReset' data-l10n-id='reset'></a></li>
+      <li><a href='#/settings' data-l10n-id='settings'></a></li>
       <li><a href='#/about' data-l10n-id='information'></a></li>
     </ul>
     <ul data-type='easter'>
@@ -165,16 +166,21 @@
     <div role='main'>
       <ul>
         <li>
+          <small>{{version}}</small>
+          <span data-l10n-id='version'></span>
+        </li>
+        <li>
           <small>Lukas Laag</small>
           <span data-l10n-id='coding'></span>
         </li>
         <li>
-          <small data-l10n-id='graphics-value'></small>
+          <small><a class='link' id='openclipart' data-href='http://www.openclipart.org/'>http://www.openclipart.org/</a></small>
           <span data-l10n-id='graphics'></span>
         </li>
         <li>
-          <small>{{version}}</small>
-          <span data-l10n-id='version'></span>
+          <label>
+            <a href='#/translations' role='button' data-l10n-id='translations'></a>
+          </label>
         </li>
         <li>
           <label>
@@ -186,7 +192,57 @@
             <a href='#/legal' role='button' data-l10n-id='legal-info'></a>
           </label>
         </li>
+        <li>
+          <label>
+            <a id='userguide' role='button' data-l10n-id='userGuide' data-href='http://fos-games.org/user-guide.html'></a>
+          </label>
+        </li>
       </ul>
+    </div>
+  </article>
+  <div id="arrow_box" class="hidden ios">
+    <h3 data-l10n-id='iosmsg1'></h3>
+    <p data-l10n-id='iosmsg2'></p>
+  </div>
+ -->
+</section>
+
+<section id='translationsView' role='region' class='view info inactive hidden' data-type='card'>
+  <header>
+    <a href='#/about'><span class='icon icon-back'>Back</span></a>
+    <h1 data-l10n-id='translations'></h1>
+  </header>
+  <div role='main'><article class="scrollable"></article></div>
+</section>
+
+<section id='releaseNotesView' role='region' class='view info inactive hidden' data-type='card'>
+  <header>
+    <a href='#/about'><span class='icon icon-back'>Back</span></a>
+    <h1 data-l10n-id='releaseNotes'></h1>
+  </header>
+  <div role='main'><article class="scrollable"></article></div>
+</section>
+
+<section id='settingsView' role='region' class='view info inactive hidden' data-type='card'>
+  <!--<header>
+    <a href='#/menu'><span class='icon icon-back'>Back</span></a>
+    <h1 data-l10n-id='settings'></h1>
+  </header>
+  <article class="scrollable">
+    <div role='main'>
+      <section>
+        <header>
+          <h2 data-l10n-id='debugLogs'></h2>
+        </header>
+        <ul>
+          <li>
+            <label class="pack-switch">
+              <input type="checkbox" {{#if debugLogs}}checked{{/if}}>
+              <span></span>
+            </label>
+          </li>
+        </ul>
+      </section>
       <section data-type='installation' {{#unless install}}class='hidden'{{/unless}}>
         <header>
           <h2 data-l10n-id='install'></h2>
@@ -208,7 +264,7 @@
         <ul>
           <li>
             <label>
-              <a href='#/update' role='button' data-l10n-id='updateBtn'></a>
+              <a href='#/update' role='button' data-l10n-id='updateBtn' data-l10n-args='{"version" : "{{updateVersion}}"}'></a>
             </label>
           </li>
           <li data-type='error'>{{error}}</li>
@@ -219,16 +275,7 @@
   <div id="arrow_box" class="hidden ios">
     <h3 data-l10n-id='iosmsg1'></h3>
     <p data-l10n-id='iosmsg2'></p>
-  </div>
- -->
-</section>
-
-<section id='releaseNotesView' role='region' class='view info inactive hidden' data-type='card'>
-  <header>
-    <a href='#/about'><span class='icon icon-back'>Back</span></a>
-    <h1 data-l10n-id='releaseNotes'></h1>
-  </header>
-  <div role='main'><article class="scrollable"></article></div>
+  </div>-->
 </section>
 
 <section id='legalView' role='region' class='view info inactive hidden' data-type='card'>
@@ -245,7 +292,7 @@
       </li>
       <li>
         <label>
-          <a href='#/source' role='button' data-l10n-id='source'></a>
+          <a id='repo' role='button' data-l10n-id='source' data-href='http://github.com/laaglu/push-puzzle'></a>
         </label>
       </li>
     </ul>
@@ -256,14 +303,6 @@
   <header>
     <a href='#/legal'><span class='icon icon-back'>Back</span></a>
     <h1 data-l10n-id='gpl'></h1>
-  </header>
-  <div role='main'><article class="scrollable"></article></div>
-</section>
-
-<section id='sourceView' role='region' class='view info inactive hidden' data-type='card'>
-  <header>
-    <a href='#/legal'><span class='icon icon-back'>Back</span></a>
-    <h1 data-l10n-id='source'></h1>
   </header>
   <div role='main'><article class="scrollable"></article></div>
 </section>

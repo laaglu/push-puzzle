@@ -27,6 +27,7 @@ var DifficultyView = require('view/DifficultyView');
 var ViewBase = require('view/ViewBase');
 var LazyView = require('view/LazyView');
 var AboutView = require('view/AboutView');
+var SettingsView = require('view/SettingsView');
 var logger = require('Logger');
 
 module.exports = Backbone.Router.extend({
@@ -46,15 +47,16 @@ module.exports = Backbone.Router.extend({
     'easter1':                    'easter1',
     'easter2':                    'easter2',
     'about':                      'about',
+    'settings':                   'settings',
     'legal':                      'legal',
+    'translations':               'translations',
     'install':                    'install',
     'update':                     'update',
     'releaseNotes':               'releaseNotes',
-    'gpl':                        'gpl',
-    'source':                     'source'
+    'gpl':                        'gpl'
   },
 
-  initialize : function() {
+  initialize : function initialize() {
     var router = this;
     levels.fetchAll({success: function() {
       $('#loadingView').addClass('hidden');
@@ -64,10 +66,12 @@ module.exports = Backbone.Router.extend({
       router.editView = new EditView();
       router.difficultyView = new DifficultyView();
       router.aboutView = new AboutView();
-      router.legalView = new ViewBase({el : $('#legalView')[0]});
+      router.settingsView = new SettingsView();
+      router.legalView = new ViewBase({el : $('#legalView')[0], 
+        events: { 'click #repo' : 'openUrl' }});
       router.releaseNotesView = new LazyView({el : $('#releaseNotesView')[0], path:'/data/releaseNotes.html'});
+      router.translationsView = new LazyView({el : $('#translationsView')[0], path:'/data/translations.html'});
       router.gplView = new LazyView({el : $('#gplView')[0], path:'/data/gpl-3.0-standalone.html'});
-      router.sourceView = new LazyView({el : $('#sourceView')[0], path:'/data/source.html'});
       router.gameView.bind(levels.at(router.levelIndex));
 
       install.check({
@@ -78,7 +82,7 @@ module.exports = Backbone.Router.extend({
     }});
   },
 
-  play: function(levelid) {
+  play: function play(levelid) {
     logger.log('play', levelid);
     var level = levels.get(levelid);
     if (level) {
@@ -109,14 +113,15 @@ module.exports = Backbone.Router.extend({
     }
   },
 
-  menu: function() {
+  menu: function menu() {
     logger.log('menu');
     this.gameView.deactivate(true);
     this.listView.deactivate();
     this.aboutView.deactivate();
+    this.settingsView.deactivate();
   },
 
-  list: function() {
+  list: function list() {
     logger.log('list');
     this.listView.activate();
     if (this.editView.isActive()) {
@@ -125,7 +130,7 @@ module.exports = Backbone.Router.extend({
     }
   },
 
-  edit: function(levelid) {
+  edit: function edit(levelid) {
     logger.log('edit', levelid);
     var editView = this.editView;
     var level = levels.get(levelid);
@@ -138,7 +143,7 @@ module.exports = Backbone.Router.extend({
     }
   },
 
-  difficulty: function(levelid) {
+  difficulty: function difficulty(levelid) {
     logger.log('difficulty', levelid);
     var level;
     if (!levelid) {
@@ -153,7 +158,7 @@ module.exports = Backbone.Router.extend({
     }
   },
 
-  commit: function() {
+  commit: function commit() {
     logger.log('commit');
     var snapshot = this.editView.model;
     if (snapshot) {
@@ -166,7 +171,7 @@ module.exports = Backbone.Router.extend({
     location.hash = '#/list';
   },
 
-  erase: function(levelid) {
+  erase: function erase(levelid) {
     logger.log('delete', levelid);
     var level = levels.get(levelid);
     if (level) {
@@ -175,20 +180,20 @@ module.exports = Backbone.Router.extend({
     }
   },
 
-  create : function() {
+  create : function create() {
     logger.log('create', levels);
     levels.createLevel();
     location.hash = '#/list';
   },
 
-  shuffle: function() {
+  shuffle: function shuffle() {
     logger.log('shuffle');
     this.gameView.model.set({state: null});
     this.gameView.model = null;
     location.hash = '#/play/' + levels.at(this.levelIndex).id;
   },
 
-  next: function() {
+  next: function next() {
     logger.log('next');
     this.levelIndex++;
     if (this.levelIndex >= levels.length) {
@@ -197,7 +202,7 @@ module.exports = Backbone.Router.extend({
     location.hash = '#/play/' + levels.at(this.levelIndex).id;
   },
 
-  previous: function() {
+  previous: function previous() {
     logger.log('previous');
     this.levelIndex--;
     if (this.levelIndex < 0) {
@@ -206,7 +211,7 @@ module.exports = Backbone.Router.extend({
     location.hash = '#/play/' + levels.at(this.levelIndex).id;
   },
 
-  factoryReset: function() {
+  factoryReset: function factoryReset() {
     logger.log('factoryReset');
     if (confirm(document.webL10n.get('factorySettings'))) {
       var router = this;
@@ -221,27 +226,32 @@ module.exports = Backbone.Router.extend({
     }
   },
 
-  about: function() {
+  about: function about() {
     logger.log('about');
     this.aboutView.activate();
     this.legalView.deactivate();
+    this.translationsView.deactivate();
     this.releaseNotesView.deactivate();
   },
 
-  legal: function() {
+  settings: function settings() {
+    logger.log('settings');
+    this.settingsView.activate();
+  },
+
+  legal: function legal() {
     logger.log('legal');
     this.legalView.activate();
     this.gplView.deactivate();
-    this.sourceView.deactivate();
   },
 
-  install : function() {
+  install : function install() {
     logger.log('install');
     install.install();
     location.hash = '#/about';
   },
 
-  update : function() {
+  update : function update() {
     logger.log('update');
     // Only FFOS supports update (in non-packaged hosted mode)
     // This occurs when manifest installed in the device
@@ -251,25 +261,25 @@ module.exports = Backbone.Router.extend({
     location.hash = '#/about';
   },
 
-  releaseNotes : function() {
+  releaseNotes : function releaseNotes() {
     logger.log('releaseNotes');
     this.releaseNotesView.render();
     this.releaseNotesView.activate();
   },
 
-  gpl: function() {
+  translations : function translations() {
+    logger.log('translations');
+    this.translationsView.render();
+    this.translationsView.activate();
+  },
+
+  gpl: function gpl() {
     logger.log('gpl');
     this.gplView.render();
     this.gplView.activate();
   },
 
-  source: function() {
-    logger.log('source');
-    this.sourceView.render();
-    this.sourceView.activate();
-  },
-
-  easter1 : function() {
+  easter1 : function easter1() {
     logger.log('easter1');
     if (!this.easter) {
       this.easter = 'easter';
@@ -280,7 +290,7 @@ module.exports = Backbone.Router.extend({
     location.hash = '#/menu';
   },
 
-  easter2 : function() {
+  easter2 : function easter2() {
     logger.log('easter2');
     if (this.easter) {
       this.easterCount++;

@@ -17,7 +17,10 @@
  **********************************************/
 'use strict';
 
-/* global Backbone */
+var Modernizr = require('modernizr');
+var logger = require('Logger');
+
+/* global Backbone, window, MozActivity */
 module.exports = Backbone.View.extend({
   inactive: 'inactive',
   /**
@@ -54,5 +57,32 @@ module.exports = Backbone.View.extend({
   },
   isActive: function() {
     return !this.$el.hasClass(this.inactive);
+  },
+  openUrl : function openUrl(evt) {
+    var target, activity, href, windowName;
+    
+    logger.log('openUrl', evt);
+    target = evt.target;
+    href = target.dataset.href;
+    windowName = target.id;
+    if (Modernizr.webactivities) {
+      activity = new MozActivity({
+        // Ask for the "pick" activity
+        name: "view",
+
+        // Provide the data required by the filters of the activity
+        data: {
+          type: "url",
+          url : href
+        }
+      });
+
+      activity.onerror = function onerror() {
+        logger.error(this.error);
+      };
+
+    } else {
+      window.open(href, windowName);
+    }
   }
 });
