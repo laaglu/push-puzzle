@@ -1,5 +1,5 @@
 {
-  "version": "1.0.4",
+  "version": "1.0.5",
   "name": "Push Puzzle",
   "description": "Sliding puzzle game. The goal is to reconstitute an image",
   "launch_path": "/index.html",
@@ -22,6 +22,10 @@
     "fr": {
       "name": "Taquin",
       "description": "Jeu de puzzle. Le but est de reconstituer une image"
+    },
+    "ta_IN": {
+      "name" : "புஷ் புதிர்",
+      "description" : "நெகிழ்தல் புதிர் விளையாட்டு. இலக்கு ஒரு படத்தை மறுசீரமைக்கும் வேண்டும்"
     }
   },
   "default_locale": "en",
