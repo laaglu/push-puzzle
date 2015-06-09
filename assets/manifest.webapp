@@ -1,34 +1,55 @@
 {
-  "version": "1.0.5",
-  "name": "Push Puzzle",
-  "description": "Sliding puzzle game. The goal is to reconstitute an image",
-  "launch_path": "/index.html",
-  "appcache_path": "/index.appcache",
-  "icons": {
-    "30": "/img/icons/icon-30.png",
-    "32": "/img/icons/icon-32.png",
-    "60": "/img/icons/icon-60.png",
-    "90": "/img/icons/icon-90.png",
-    "120": "/img/icons/icon-120.png",
-    "128": "/img/icons/icon-128.png",
-    "256": "/img/icons/icon-256.png"
+ "version": "1.0.6",
+ "name": "Push Puzzle",
+ "description": "Sliding puzzle game. The goal is to reconstitute an image",
+ "launch_path": "/index.html",
+ "appcache_path": "/index.appcache",
+ "icons": {
+  "30": "/img/icons/icon-30.png",
+  "32": "/img/icons/icon-32.png",
+  "60": "/img/icons/icon-60.png",
+  "90": "/img/icons/icon-90.png",
+  "120": "/img/icons/icon-120.png",
+  "128": "/img/icons/icon-128.png",
+  "256": "/img/icons/icon-256.png"
+ },
+ "developer": {
+  "name": "Lukas Laag",
+  "url": "http://www.vectomatic.org"
+ },
+ "installs_allowed_from": [
+  "*"
+ ],
+ "locales": {
+  "bn_BD": {
+   "name": "Push Puzzle",
+   "description": "এটি একটি পাজল গেইম। এর উদ্দেশ্য হল ছবিকে আগের অবস্থায় ফিরিয়ে নিয়ে যাওয়া।"
   },
-  "developer": {
-    "name": "Lukas Laag",
-    "url": "http://www.vectomatic.org"
+  "de": {
+   "name": "Schiebe-Puzzle",
+   "description": "Ein Schiebe-Puzzle Spiel. Das Ziel ist, ein Bild wieder richtig zusammenzusetzen."
   },
-  "installs_allowed_from": ["*"],
-  "locales": {
-    "fr": {
-      "name": "Taquin",
-      "description": "Jeu de puzzle. Le but est de reconstituer une image"
-    },
-    "ta_IN": {
-      "name" : "புஷ் புதிர்",
-      "description" : "நெகிழ்தல் புதிர் விளையாட்டு. இலக்கு ஒரு படத்தை மறுசீரமைக்கும் வேண்டும்"
-    }
+  "es": {
+   "name": "Push Puzzle",
+   "description": "Juego de puzzle. El objetivo es reconstruir la imagen"
   },
-  "default_locale": "en",
-  "type": "web"
+  "fr": {
+   "name": "Taquin",
+   "description": "Jeu de puzzle. Le but est de reconstituer une image"
+  },
+  "nl_NL": {
+   "name": "Duwpuzzel",
+   "description": "Puzzelspel met verschuivende stukjes. Het doel is om een afbeelding te reconstrueren"
+  },
+  "pt_BR": {
+   "name": "Push Puzzle",
+   "description": "Quebra-cabeça. O objectivo é reconstituir uma imagem"
+  },
+  "ta_IN": {
+   "name": "புஷ் புதிர்",
+   "description": "நெகிழ்தல் புதிர் விளையாட்டு. இலக்கு ஒரு படத்தை மறுசீரமைக்கும் வேண்டும்"
+  }
+ },
+ "default_locale": "en",
+ "type": "web"
 }
-
