@@ -49,7 +49,7 @@ exports.config = {
       ignore:/manifest\.properties|translation\.properties$/
     },
     jshint: {
-      pattern: /^(?!app\/(common\/libsvg|common\/libsvg-ide|modernizr)\.js)app.*\.js/,
+      pattern: /^(?!app\/(common\/libsvg-ide|modernizr)\.js)app.*\.js/,
       options: {
         // JSHint Default Configuration File (as on JSHint website)
         // See http://jshint.com/docs/ for more details

@@ -19,6 +19,9 @@
 * Class to define constants commonly used in CSS, SVG and XLink
 * @constructor
 */
+'use strict';
+require('common/pathseg');
+
 function SVGConstants() {
 }
 
@@ -1333,8 +1336,7 @@ var x2 = this.x2.baseVal.value;
 var y2 = this.y2.baseVal.value;
 var dx = x2 - x1;
 var dy = y2 - y1;
-return ((p.x - x1) * (x2 - x1) + (p.y - y1) * (y2 - y1))
-  / (dx * dx + dy * dy);
+return ((p.x - x1) * (x2 - x1) + (p.y - y1) * (y2 - y1)) / (dx * dx + dy * dy);
 };
 
 /**
@@ -1378,8 +1380,7 @@ return p.distance(this.intersectionPoint(p, this.ownerSVGElement.createSVGPoint(
 * @returns {String} a textual description of the matrix.
 */
 SVGMatrix.prototype.getDescription = function () {
-return this.a + " " + this.b + " " + this.c + " " + this.d + " " + this.e
-  + " " + this.f;
+return this.a + " " + this.b + " " + this.c + " " + this.d + " " + this.e + " " + this.f;
 };
 
 /**
@@ -1388,8 +1389,7 @@ return this.a + " " + this.b + " " + this.c + " " + this.d + " " + this.e
 * true if this matrix is the identity matrix
 */
 SVGMatrix.prototype.isIdentity = function () {
-return this.a == 1 && this.b == 0 && this.c == 0 && this.d == 1
-  && this.e == 0 && this.f == 0;
+return this.a === 1 && this.b === 0 && this.c === 0 && this.d === 1 && this.e === 0 && this.f === 0;
 };
 
 /////////////////////////////////////////////////////
@@ -1554,8 +1554,7 @@ return this.x * this.x + this.y * this.y;
 * @returns {Number} the euclidian distance from this point to specified point
 */
 SVGPoint.prototype.distance = function (p) {
-return Math.sqrt((this.x - p.x) * (this.x - p.x) + (this.y - p.y)
-  * (this.y - p.y));
+return Math.sqrt((this.x - p.x) * (this.x - p.x) + (this.y - p.y) * (this.y - p.y));
 };
 
 /**
@@ -1689,8 +1688,7 @@ return destination;
 * false otherwise.
 */
 SVGRect.prototype.contains = function (p) {
-return p.x >= this.x && p.y >= this.y && p.x <= this.getMaxX()
-  && p.y <= this.getMaxY();
+return p.x >= this.x && p.y >= this.y && p.x <= this.getMaxX() && p.y <= this.getMaxY();
 };
 
 /**
@@ -1711,8 +1709,7 @@ return destination;
 * @returns {String} a textual description of the rectangle.
 */
 SVGRect.prototype.getDescription = function () {
-return "{" + this.x + " " + this.y + " " + this.width + " " + this.height
-  + "}";
+return "{" + this.x + " " + this.y + " " + this.width + " " + this.height + "}";
 };
 
 /**
@@ -1918,7 +1915,7 @@ viewBox.height = height;
 */
 SVGSVGElement.prototype.resetViewbox = function () {
 var viewBox = this.viewBox.baseVal;
-if (viewBox.width == 0 || viewBox.height == 0) {
+if (viewBox.width === 0 || viewBox.height === 0) {
   var isAttached = function (node) {
     if (node === document) {
       return true;
@@ -1963,18 +1960,15 @@ this.width.baseVal.newValueSpecifiedUnits(unitType, width);
 SVGTransform.prototype.getDescription = function () {
 switch (this.type) {
   case SVGTransform.SVG_TRANSFORM_MATRIX:
-    return SVGConstants.TRANSFORM_MATRIX + "("
-      + this.matrix.getDescription() + ")";
+    return SVGConstants.TRANSFORM_MATRIX + "(" + this.matrix.getDescription() + ")";
   case SVGTransform.SVG_TRANSFORM_TRANSLATE:
-    return SVGConstants.TRANSFORM_TRANSLATE + "(" + this.matrix.e + ","
-      + this.matrix.f + ")";
+    return SVGConstants.TRANSFORM_TRANSLATE + "(" + this.matrix.e + "," + this.matrix.f + ")";
   case SVGTransform.SVG_TRANSFORM_SCALE:
-    return SVGConstants.TRANSFORM_SCALE + "(" + this.matrix.a + ","
-      + this.matrix.d + ")";
+    return SVGConstants.TRANSFORM_SCALE + "(" + this.matrix.a + "," + this.matrix.d + ")";
   case SVGTransform.SVG_TRANSFORM_ROTATE:
     var str = SVGConstants.TRANSFORM_ROTATE + "(" + this.angle;
-    if (this.matrix.e != 0 || this.matrix.f != 0) {
-      if (this.angle == 0) {
+    if (this.matrix.e !== 0 || this.matrix.f !== 0) {
+      if (this.angle === 0) {
         str += ", " + this.matrix.e + "," + this.matrix.f;
       } else {
         var a = 1 - Math.cos(this.angle * 2 * Math.PI / 360);
