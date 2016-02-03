@@ -16,7 +16,7 @@
  * along with push-puzzle.  If not, see http://www.gnu.org/licenses/
  **********************************************/
 'use strict';
-
+/*global Backbone,$,MozActivity*/
 var database = require('./db');
 require('common/libsvg');
 var Level = require('./Level');
@@ -46,7 +46,7 @@ var Levels = Backbone.Collection.extend({
     this.fetch({
       success : function(collection) {
        // If the data has not been initialized yet, create it.
-       if (collection.length == 0) {
+       if (collection.length === 0) {
          collection.resetAll(options);
        } else if (options && options.success) {
          options.success();
@@ -70,7 +70,7 @@ var Levels = Backbone.Collection.extend({
     localStorage.setItem(CURRENT_LEVEL, value);
   },
   resetAll: function (options) {
-    var i, len, collection = this, model;
+    var i, collection = this, model;
 
     // Internal function to handle errors
     var onerror = function onerror(e) {
@@ -231,7 +231,7 @@ var Levels = Backbone.Collection.extend({
         obj.data = e.target.result;
         var parser = new DOMParser();
         var svg = parser.parseFromString(e.target.result, "text/xml").documentElement;
-        if ("parsererror" == svg.localName) {
+        if ("parsererror" === svg.localName) {
           logger.log(svg);
           return;
         }
@@ -266,7 +266,7 @@ var Levels = Backbone.Collection.extend({
       var obj = options.obj;
       var img = document.createElement("img");
       img.onerror = onerror;
-      img.onload = function onload(e) {
+      img.onload = function onload() {
         var minifier = new Minifier(64,64);
         minifier.minify(
           img,
@@ -284,7 +284,7 @@ var Levels = Backbone.Collection.extend({
               miniature: e.target.src,
               difficulty:0
             }, {
-              success: function(model, response, options) {
+              success: function(model) {
                 model.imageData = imageData;
               },
               error:onerror,

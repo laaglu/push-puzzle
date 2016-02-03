@@ -210,10 +210,10 @@ module.exports = ViewBase.extend({
     // Compute the number of tiles
     if (width < height) {
       this.xcount = this.model.get('difficulty') + 3;
-      this.ycount = ~~(this.xcount * height / width);
+      this.ycount = Math.floor(this.xcount * height / width);
     } else {
       this.ycount = this.model.get('difficulty') + 3;
-      this.xcount = ~~(this.ycount * width / height);
+      this.xcount = Math.floor(this.ycount * width / height);
     }
     this.hole = this.xcount * this.ycount - 1;
 
@@ -221,10 +221,10 @@ module.exports = ViewBase.extend({
     // drawing (15% of the original drawing size, corner radius
     // 2.5% of the original drawing size)
     // Add a 3 pixel margin around the tiles
-    borderWidth = ~~(0.075 * width);
-    borderHeight = ~~(0.075 * height);
-    borderRx = ~~(0.025 * width);
-    borderRy = ~~(0.025 * height);
+    borderWidth = Math.floor(0.075 * width);
+    borderHeight = Math.floor(0.075 * height);
+    borderRx = Math.floor(0.025 * width);
+    borderRy = Math.floor(0.025 * height);
     borderOut = document.createSVGRectElement1(
       viewBox.x - borderWidth - this.MARGIN,
       viewBox.y - borderHeight - this.MARGIN,
@@ -351,7 +351,7 @@ module.exports = ViewBase.extend({
           // Shuffle the tiles
           for (i = 0; i < view.xcount; i++) {
             for (var j = 0; j < view.ycount; j++) {
-              view.setTile(i, j, array.splice(~~(Math.random() * tileCount--), 1)[0]);
+              view.setTile(i, j, array.splice(Math.floor(Math.random() * tileCount--), 1)[0]);
             }
           }
           repeatCount++;
@@ -371,7 +371,7 @@ module.exports = ViewBase.extend({
   gameOver: function () {
     for (var i = 0; i < this.xcount; i++) {
       for (var j = 0; j < this.ycount; j++) {
-        if (!(this.getTile(i, j) === i * this.ycount + j)) {
+        if (this.getTile(i, j) !== i * this.ycount + j) {
           return false;
         }
       }
@@ -407,52 +407,52 @@ module.exports = ViewBase.extend({
    * @param {Event} event
    */
   onEvent: function (event) {
-    if (this.playing) {
-      var state = this.model.get('state');
-      var coords = this.getTileCoordinates(event);
-      if (coords != null) {
-        var x = ~~coords.x;
-        var y = ~~coords.y;
-        var shifted = false;
-        var i, j;
-        for (i = 0; i < this.xcount; i++) {
-          if (state[i][y] === this.hole) {
-            if (x < i) {
-              for (j = i; j > x; j--) {
-                this.setTile(j, y, this.getTile(j - 1, y));
-              }
-            } else {
-              for (j = i; j < x; j++) {
-                this.setTile(j, y, this.getTile(j + 1, y));
-              }
-            }
-            this.setTile(x, y, this.hole);
-            shifted = true;
-          }
-        }
-        if (!shifted) {
-          for (i = 0; i < this.ycount; i++) {
-            if (state[x][i] === this.hole) {
-              if (y < i) {
-                for (j = i; j > y; j--) {
-                  this.setTile(x, j, this.getTile(x, j - 1));
-                }
-              } else {
-                for (j = i; j < y; j++) {
-                  this.setTile(x, j, this.getTile(x, j + 1));
-                }
-              }
-              this.setTile(x, y, this.hole);
-            }
-          }
-        }
-        // Save the game state
-        this.model.update();
+    var state, coords, x, y, i, j, shifted;
 
-        if (this.gameOver()) {
-          this.winAnimation();
+    coords = this.getTileCoordinates(event);
+    if (!this.playing || !coords) {
+      return;
+    }
+    state = this.model.get('state');
+    x = Math.floor(coords.x);
+    y = Math.floor(coords.y);
+    shifted = false;
+    for (i = 0; i < this.xcount; i++) {
+      if (state[i][y] === this.hole) {
+        if (x < i) {
+          for (j = i; j > x; j--) {
+            this.setTile(j, y, this.getTile(j - 1, y));
+          }
+        } else {
+          for (j = i; j < x; j++) {
+            this.setTile(j, y, this.getTile(j + 1, y));
+          }
+        }
+        this.setTile(x, y, this.hole);
+        shifted = true;
+      }
+    }
+    if (!shifted) {
+      for (i = 0; i < this.ycount; i++) {
+        if (state[x][i] === this.hole) {
+          if (y < i) {
+            for (j = i; j > y; j--) {
+              this.setTile(x, j, this.getTile(x, j - 1));
+            }
+          } else {
+            for (j = i; j < y; j++) {
+              this.setTile(x, j, this.getTile(x, j + 1));
+            }
+          }
+          this.setTile(x, y, this.hole);
         }
       }
+    }
+    // Save the game state
+    this.model.update();
+
+    if (this.gameOver()) {
+      this.winAnimation();
     }
   },
 

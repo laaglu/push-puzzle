@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with push-puzzle.  If not, see http://www.gnu.org/licenses/
  **********************************************/
+'use strict';
 var GameRouter = require('./GameRouter');
 
 /*global $,moment, Backbone, navigator*/

@@ -16,7 +16,7 @@
  * along with push-puzzle.  If not, see http://www.gnu.org/licenses/
  **********************************************/
 'use strict';
-
+/* global Backbone, moment*/
 var database = require('./db');
 var ImageData = require('./ImageData');
 var logger = require('Logger');
@@ -68,7 +68,6 @@ var Level = Backbone.Model.extend({
     return difficulties[index !== undefined ? index : this.get('difficulty')];
   },
   difficultyValue: function(index) {
-    var difficulties = ['easy', 'medium', 'hard'];
     return document.webL10n.get(this.difficultyKey(index));
   },
   // Reads the ImageData instance associated with this level, if it exists
@@ -124,7 +123,7 @@ var Level = Backbone.Model.extend({
         try {
           var parser = new DOMParser();
           var svg = parser.parseFromString(this.responseText, "text/xml").documentElement;
-          if ("parsererror" == svg.localName) {
+          if ("parsererror" === svg.localName) {
             onerror(new Error("Parsing error:" + svg.innerText));
           }
           if (options.success) {
@@ -169,7 +168,7 @@ var Level = Backbone.Model.extend({
       }
     } else {
       level.readUserImage({
-        success: function success(model, response, options) {
+        success: function success(model) {
           var data = model.get('data');
           var type = model.get('type');
           if (data.constructor === ArrayBuffer) {

@@ -31,8 +31,7 @@ module.exports = ViewBase.extend({
   model: install,
   events: {
     'click a[data-l10n-id="installBtn"]' : 'showNotification',
-    'change #debugLogs' : 'toggleDebug',
-    'change #releaseMic' : 'toggleReleaseMic'
+    'change #debugLogs' : 'toggleDebug'
   },
 
   initialize: function () {

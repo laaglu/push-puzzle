@@ -25,8 +25,8 @@ module.exports =  {
     version: 1,
     migrate: function (transaction, next) {
       logger.log("indexedDB.migrate", transaction);
-      var levelStore = transaction.db.createObjectStore('level');
-      var imageStore = transaction.db.createObjectStore('image');
+      transaction.db.createObjectStore('level');
+      transaction.db.createObjectStore('image');
       next();
     }
   }]
